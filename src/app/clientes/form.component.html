@@ -1,0 +1,81 @@
+<div class="card bg-dark text-white mb-5 py-3">
+  <div class="card-header pb-4">{{ titulo }}</div>
+  <div class="card-body">
+    <form>
+      <div class="mb-3">
+        <label for="Nombre" class="form-label">Nombre</label>
+        <input
+          type="text"
+          class="form-control"
+          name="nombre"
+          [(ngModel)]="cliente.nombre"
+          required
+          minlength="4"
+          #nombre="ngModel"
+        />
+        <!-- nombre.errors.minlength -->
+        <div
+          class="alert alert-danger"
+          *ngIf="nombre.ivalid && (nombre.dirty || nombre.touched)"
+        >
+          <div *ngIf="nombre.errors?.['required']">nombre es requerido</div>
+          <div *ngIf="nombre.errors?.['minlenght']">
+            nombre es al menos 4 caracteres
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="apellido" class="form-label">Apellido</label>
+        <input
+          type="text"
+          class="form-control"
+          name="apellido"
+          [(ngModel)]="cliente.apellido"
+          required
+          #apellido="ngModel"
+        />
+        <div
+          class="alert alert-danger"
+          *ngIf="apellido.ivalid && (apellido.dirty || apellido.touched)"
+        >
+          <div *ngIf="apellido.errors?.['required']">apellido es requerido</div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="text" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          name="email"
+          [(ngModel)]="cliente.email"
+          [required]=""
+          email
+          #email="ngModel"
+        />
+        <div
+          class="alert alert-danger"
+          *ngIf="email.ivalid && (email.dirty || email.touched)"
+        >
+          <div *ngIf="email.errors?.['required']">email es requerido</div>
+          <div *ngIf="nombre.errors?.['email']">
+            nombre es al menos 4 caracteres
+          </div>
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        (click)="create()"
+        *ngIf="!cliente.id; else elseBlock"
+      >
+        Crear
+      </button>
+      <ng-template #elseBlock>
+        <button type="submit" class="btn btn-primary" (click)="update()">
+          Editar
+        </button>
+      </ng-template>
+    </form>
+  </div>
+</div>
