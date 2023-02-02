@@ -28,12 +28,14 @@
       </thead>
       <tbody>
         <!-- el ngFor repite un arreglo es como el map de react -->
+        <!-- | uppercaseun es un "pipe", un componente de 
+          transformación de datos que se utiliza para transformar datos en la vista -->
         <tr *ngFor="let cliente of clientes">
           <td>{{ cliente.id }}</td>
           <td>{{ cliente.nombre }}</td>
-          <td>{{ cliente.apellido }}</td>
+          <td>{{ cliente.apellido | uppercase }}</td>
           <td>{{ cliente.email }}</td>
-          <td>{{ cliente.createAt }}</td>
+          <td>{{ cliente.createAt | date : "EEEE dd/MMMM/yyyy" }}</td>
           <td>
             <button
               class="btn btn-warning"

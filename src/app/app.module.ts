@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { LOCALE_ID, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 
 import { AppComponent } from "./app.component";
@@ -11,6 +11,9 @@ import { Routes, RouterModule } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
 import { FormComponent } from "./clientes/form.component";
 import { FormsModule } from "@angular/forms";
+import { registerLocaleData } from "@angular/common";
+import localeCL from "@angular/common/locales/es-CL";
+registerLocaleData(localeCL, "es-CL");
 
 //Aca configuramos las rutas para que queden asincronas
 const routes: Routes = [
@@ -38,7 +41,7 @@ const routes: Routes = [
     FormsModule,
   ],
   //services
-  providers: [ClienteService],
+  providers: [ClienteService, { provide: LOCALE_ID, useValue: "es-CL" }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

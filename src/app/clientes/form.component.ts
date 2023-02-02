@@ -11,6 +11,7 @@ import { ClienteService } from "./cliente.service";
 export class FormComponent implements OnInit {
   titulo: string = "Formulario";
   cliente: Cliente = new Cliente();
+  errores: string[];
 
   constructor(
     private clienteService: ClienteService,
@@ -36,24 +37,38 @@ export class FormComponent implements OnInit {
   // para transformar una respuesta del servidor se utiliza el operador map,
   // esto para no usar el any aunque ambos metodos sirven
   public create(): void {
-    this.clienteService.create(this.cliente).subscribe((cliente) => {
-      this.router.navigate(["/clientes"]);
-      Swal.fire(
-        "Nuevo cliente",
-        `El cliente ${cliente.nombre} ha sido creado con éxito`,
-        "success"
-      );
-    });
+    this.clienteService.create(this.cliente).subscribe(
+      (cliente) => {
+        this.router.navigate(["/clientes"]);
+        Swal.fire(
+          "Nuevo cliente",
+          `El cliente ${cliente.nombre} ha sido creado con éxito`,
+          "success"
+        );
+      },
+      (err) => {
+        this.errores = err.error.errors as string[];
+        console.error("codigo de error desde el backend " + err.status);
+        console.error(err.error.errors);
+      }
+    );
   }
 
   public update(): void {
-    this.clienteService.update(this.cliente).subscribe((json) => {
-      this.router.navigate(["/clientes"]);
-      Swal.fire(
-        "Cliente Actualizado",
-        `${json.mensaje}: ${json.cliente.nombre}`,
-        "success"
-      );
-    });
+    this.clienteService.update(this.cliente).subscribe(
+      (json) => {
+        this.router.navigate(["/clientes"]);
+        Swal.fire(
+          "Cliente Actualizado",
+          `${json.mensaje}: ${json.cliente.nombre}`,
+          "success"
+        );
+      },
+      (err) => {
+        this.errores = err.error.errors as string[];
+        console.error("codigo de error desde el backend " + err.status);
+        console.error(err.error.errors);
+      }
+    );
   }
 }

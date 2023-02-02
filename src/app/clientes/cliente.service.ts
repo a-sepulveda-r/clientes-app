@@ -1,6 +1,7 @@
 // La idea es que en esta clase esten la logica de datos por lo que se
 //crean los metodos de crud para luego invocarlos en los componentes
 
+import { DatePipe, formatDate, registerLocaleData } from "@angular/common";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
@@ -17,9 +18,26 @@ export class ClienteService {
 
   // funcion que retorna el json de los clientes
   getClientes(): Observable<Cliente[]> {
-    return this.http
-      .get(this.urlEndPoint)
-      .pipe(map((response) => response as Cliente[]));
+    return this.http.get(this.urlEndPoint).pipe(
+      map((response) => {
+        let clientes = response as Cliente[];
+        return clientes.map((cliente) => {
+          cliente.nombre = cliente.nombre.toUpperCase();
+          // let datePipe = new DatePipe("es-CL");
+          // cliente.createAt = datePipe.transform(
+          //   cliente.createAt,
+          //   "EEEE dd/MMMM/yyyy"
+          // );
+          // cliente.createAt = formatDate(  //otra forma
+          //   cliente.createAt,
+          //   "dd-MM-yyyy",
+          //   "en-US"
+          // );
+
+          return cliente;
+        });
+      })
+    );
   }
 
   create(cliente: Cliente): Observable<Cliente> {
@@ -30,6 +48,10 @@ export class ClienteService {
       .pipe(
         map((response: any) => response.cliente as Cliente),
         catchError((e) => {
+          if (e.status == 400) {
+            return throwError(() => e);
+          }
+
           console.error(e.error.mensaje);
           Swal.fire(e.error.mensaje, e.error.error, "error");
           return throwError(() => e);
@@ -55,6 +77,10 @@ export class ClienteService {
       })
       .pipe(
         catchError((e) => {
+          if (e.status == 400) {
+            return throwError(() => e);
+          }
+
           console.error(e.error.mensaje);
           Swal.fire(e.error.mensaje, e.error.error, "error");
           return throwError(() => e);
