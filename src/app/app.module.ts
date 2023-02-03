@@ -13,6 +13,7 @@ import { FormComponent } from "./clientes/form.component";
 import { FormsModule } from "@angular/forms";
 import { registerLocaleData } from "@angular/common";
 import localeCL from "@angular/common/locales/es-CL";
+import { PaginatorComponent } from "./paginator/paginator.component";
 registerLocaleData(localeCL, "es-CL");
 
 //Aca configuramos las rutas para que queden asincronas
@@ -20,10 +21,10 @@ const routes: Routes = [
   { path: "", redirectTo: "/clientes", pathMatch: "full" },
   { path: "directivas", component: DirectivaComponent },
   { path: "clientes", component: ClientesComponent },
+  { path: "clientes/page/:page", component: ClientesComponent },
   { path: "clientes/form", component: FormComponent },
   { path: "clientes/form/:id", component: FormComponent },
 ];
-
 @NgModule({
   //componentæßs
   declarations: [
@@ -33,6 +34,7 @@ const routes: Routes = [
     DirectivaComponent,
     ClientesComponent,
     FormComponent,
+    PaginatorComponent,
   ],
   imports: [
     BrowserModule,

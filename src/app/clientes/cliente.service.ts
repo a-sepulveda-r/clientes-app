@@ -5,7 +5,7 @@ import { DatePipe, formatDate, registerLocaleData } from "@angular/common";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { catchError, map, Observable, throwError } from "rxjs";
+import { catchError, map, Observable, tap, throwError } from "rxjs";
 import Swal from "sweetalert2";
 import { Cliente } from "./cliente";
 // import { CLIENTES } from "./clientes"; para traer clientes localmente
@@ -17,25 +17,29 @@ export class ClienteService {
   constructor(private http: HttpClient, private router: Router) {}
 
   // funcion que retorna el json de los clientes
-  getClientes(): Observable<Cliente[]> {
-    return this.http.get(this.urlEndPoint).pipe(
-      map((response) => {
-        let clientes = response as Cliente[];
-        return clientes.map((cliente) => {
+  getClientes(page: number): Observable<any> {
+    return this.http.get(this.urlEndPoint + "/page/" + page).pipe(
+      tap((response: any) => {
+        console.log("ClienteService: tap 1");
+        (response.content as Cliente[]).forEach((cliente) =>
+          console.log(cliente.nombre)
+        );
+      }),
+      map((response: any) => {
+        (response.content as Cliente[]).map((cliente) => {
           cliente.nombre = cliente.nombre.toUpperCase();
-          // let datePipe = new DatePipe("es-CL");
-          // cliente.createAt = datePipe.transform(
-          //   cliente.createAt,
-          //   "EEEE dd/MMMM/yyyy"
-          // );
-          // cliente.createAt = formatDate(  //otra forma
-          //   cliente.createAt,
-          //   "dd-MM-yyyy",
-          //   "en-US"
-          // );
-
+          //let datePipe = new DatePipe('es');
+          //cliente.createAt = datePipe.transform(cliente.createAt, 'EEEE dd, MMMM yyyy');
+          //cliente.createAt = formatDate(cliente.createAt, 'dd-MM-yyyy', 'es');
           return cliente;
         });
+        return response;
+      }),
+      tap((response) => {
+        console.log("ClienteService: tap 2");
+        (response.content as Cliente[]).forEach((cliente) =>
+          console.log(cliente.nombre)
+        );
       })
     );
   }

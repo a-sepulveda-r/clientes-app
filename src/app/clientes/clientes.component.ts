@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { tap } from "rxjs";
 import Swal from "sweetalert2";
 import { Cliente } from "./cliente";
 import { ClienteService } from "./cliente.service";
@@ -9,14 +11,37 @@ import { ClienteService } from "./cliente.service";
 })
 export class ClientesComponent implements OnInit {
   clientes: Cliente[];
+  paginador: any;
 
-  constructor(private clienteService: ClienteService) {}
+  constructor(
+    private clienteService: ClienteService,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   //indica el cliclo de vida del component
-  ngOnInit(): void {
-    this.clienteService
-      .getClientes()
-      .subscribe((clientes) => (this.clientes = clientes));
+  ngOnInit() {
+    this.activatedRoute.paramMap.subscribe((params) => {
+      let page: number = +params.get("page");
+
+      if (!page) {
+        page = 0;
+      }
+
+      this.clienteService
+        .getClientes(page)
+        .pipe(
+          tap((response) => {
+            console.log("ClientesComponent: tap 3");
+            (response.content as Cliente[]).forEach((cliente) =>
+              console.log(cliente.nombre)
+            );
+          })
+        )
+        .subscribe((response) => {
+          this.clientes = response.content as Cliente[];
+          this.paginador = response;
+        });
+    });
   }
   delete(cliente: Cliente): void {
     const swalWithBootstrapButtons = Swal.mixin({
