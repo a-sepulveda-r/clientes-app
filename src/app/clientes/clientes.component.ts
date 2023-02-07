@@ -12,6 +12,7 @@ import { ClienteService } from "./cliente.service";
 export class ClientesComponent implements OnInit {
   clientes: Cliente[];
   paginador: any;
+  clienteSeleccionado: Cliente;
 
   constructor(
     private clienteService: ClienteService,
@@ -83,5 +84,9 @@ export class ClientesComponent implements OnInit {
           );
         }
       });
+  }
+
+  abrirModal(cliente: Cliente) {
+    this.clienteSeleccionado = cliente;
   }
 }
