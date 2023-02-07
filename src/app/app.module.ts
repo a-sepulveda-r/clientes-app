@@ -14,6 +14,7 @@ import { FormsModule } from "@angular/forms";
 import { registerLocaleData } from "@angular/common";
 import localeCL from "@angular/common/locales/es-CL";
 import { PaginatorComponent } from "./paginator/paginator.component";
+import { DetalleComponent } from "./clientes/detalle/detalle.component";
 registerLocaleData(localeCL, "es-CL");
 
 //Aca configuramos las rutas para que queden asincronas
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: "clientes/page/:page", component: ClientesComponent },
   { path: "clientes/form", component: FormComponent },
   { path: "clientes/form/:id", component: FormComponent },
+  { path: "clientes/ver/:id", component: DetalleComponent },
 ];
 @NgModule({
   //componentæßs
@@ -35,6 +37,7 @@ const routes: Routes = [
     ClientesComponent,
     FormComponent,
     PaginatorComponent,
+    DetalleComponent,
   ],
   imports: [
     BrowserModule,

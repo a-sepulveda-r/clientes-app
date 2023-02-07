@@ -31,7 +31,15 @@
         <!-- | uppercaseun es un "pipe", un componente de 
           transformación de datos que se utiliza para transformar datos en la vista -->
         <tr *ngFor="let cliente of clientes">
-          <td>{{ cliente.id }}</td>
+          <td>
+            <button
+              class="btn btn-success"
+              type="button"
+              [routerLink]="['/clientes/ver', cliente.id]"
+            >
+              {{ cliente.id }}
+            </button>
+          </td>
           <td>{{ cliente.nombre }}</td>
           <td>{{ cliente.apellido | uppercase }}</td>
           <td>{{ cliente.email }}</td>
