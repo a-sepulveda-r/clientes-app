@@ -37,13 +37,22 @@
           transformación de datos que se utiliza para transformar datos en la vista -->
         <tr *ngFor="let cliente of clientes">
           <td>
-            <button
-              class="btn btn-success"
-              type="button"
+            <img
+              class="img-thumbnail"
+              src="http://localhost:8080/api/uploads/img/{{ cliente.foto }}"
+              alt="{{ cliente.foto }}"
+              *ngIf="cliente?.foto"
               (click)="abrirModal(cliente)"
-            >
-              {{ cliente.id }}
-            </button>
+              style="width: 64px; cursor: pointer"
+            />
+            <img
+              class="img-thumbnail"
+              src="http://localhost:8080/images/no-usuario.png"
+              alt="{{ cliente.foto }}"
+              *ngIf="!cliente?.foto"
+              (click)="abrirModal(cliente)"
+              style="width: 64px; height: 64px; cursor: pointer"
+            />
           </td>
           <td>{{ cliente.nombre }}</td>
           <td>{{ cliente.apellido | uppercase }}</td>
