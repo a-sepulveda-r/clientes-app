@@ -75,6 +75,21 @@
           [(ngModel)]="cliente.createAt"
         />
       </div>
+      <div class="my-5">
+        <label for="region" class="form-label">Región</label>
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          name="region"
+          [(ngModel)]="cliente.region"
+          [compareWith]="compararRegion"
+        >
+          <option [ngValue]="undefined">---seleccionar una región---</option>
+          <option *ngFor="let region of regiones" [ngValue]="region">
+            {{ region.nombre }}
+          </option>
+        </select>
+      </div>
       <button
         type="submit"
         class="btn btn-primary"

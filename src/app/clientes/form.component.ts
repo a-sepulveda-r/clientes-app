@@ -4,6 +4,7 @@ import { catchError, of, tap } from "rxjs";
 import Swal from "sweetalert2";
 import { Cliente } from "./cliente";
 import { ClienteService } from "./cliente.service";
+import { Region } from "./region";
 
 @Component({
   selector: "app-form",
@@ -12,6 +13,7 @@ import { ClienteService } from "./cliente.service";
 export class FormComponent implements OnInit {
   titulo: string = "Formulario";
   cliente: Cliente = new Cliente();
+  regiones: Region[];
   errores: string[];
 
   constructor(
@@ -34,10 +36,14 @@ export class FormComponent implements OnInit {
           .subscribe((cliente) => (this.cliente = cliente));
       }
     });
+    this.clienteService
+      .getRegiones()
+      .subscribe((regiones) => (this.regiones = regiones));
   }
   // para transformar una respuesta del servidor se utiliza el operador map,
   // esto para no usar el any aunque ambos metodos sirven
   public create(): void {
+    console.log(this.cliente);
     this.clienteService
       .create(this.cliente)
       .pipe(
@@ -60,6 +66,7 @@ export class FormComponent implements OnInit {
   }
 
   public update(): void {
+    console.log(this.cliente);
     this.clienteService
       .update(this.cliente)
       .pipe(
@@ -79,5 +86,14 @@ export class FormComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  compararRegion(o1: Region, o2: Region): boolean {
+    if (o1 === undefined && o2 === undefined) {
+      return true;
+    }
+    return o1 === null || o2 === null || o1 === undefined || o2 === undefined
+      ? false
+      : o1.id === o2.id;
   }
 }
