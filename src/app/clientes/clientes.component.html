@@ -9,7 +9,7 @@
     <h5 class="card-title">Listado de clientes</h5>
     <div class="my-2 text-left">
       <button
-        class="btn brn-rounded btn-primary"
+        class="btn btn-rounded btn-primary"
         type="button"
         [routerLink]="['/clientes/form']"
       >
@@ -19,68 +19,67 @@
     <div *ngIf="clientes?.length == 0" class="alert alert-info">
       No hay registros en la base de datos
     </div>
-    <table class="table table-bordered" *ngIf="clientes?.length > 0">
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Email</th>
-          <th>Fecha</th>
-          <th>Editar</th>
-          <th>Eliminar</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- el ngFor repite un arreglo es como el map de react -->
-        <!-- | uppercaseun es un "pipe", un componente de 
-          transformación de datos que se utiliza para transformar datos en la vista -->
-        <tr *ngFor="let cliente of clientes">
-          <td>
-            <img
-              class="img-thumbnail"
-              src="http://localhost:8080/api/uploads/img/{{ cliente.foto }}"
-              alt="{{ cliente.foto }}"
-              *ngIf="cliente?.foto"
-              (click)="abrirModal(cliente)"
-              style="width: 64px; cursor: pointer"
-            />
-            <img
-              class="img-thumbnail"
-              src="http://localhost:8080/images/no-usuario.png"
-              alt="{{ cliente.foto }}"
-              *ngIf="!cliente?.foto"
-              (click)="abrirModal(cliente)"
-              style="width: 64px; height: 64px; cursor: pointer"
-            />
-          </td>
-          <td>{{ cliente.nombre }}</td>
-          <td>{{ cliente.apellido | uppercase }}</td>
-          <td>{{ cliente.email }}</td>
-          <td>{{ cliente.createAt | date : "EEEE dd/MMMM/yyyy" }}</td>
-          <td>
-            <button
-              class="btn btn-warning"
-              type="button"
-              name="editar"
-              [routerLink]="['/clientes/form', cliente.id]"
-            >
-              Editar
-            </button>
-          </td>
-          <td>
-            <button
-              class="btn btn-danger text-center"
-              type="button"
-              name="eliminar"
-              (click)="delete(cliente)"
-            >
-              Eliminar
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive" *ngIf="clientes?.length > 0">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>Fecha</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cliente of clientes">
+            <td>
+              <img
+                class="img-thumbnail"
+                src="http://localhost:8080/api/uploads/img/{{ cliente.foto }}"
+                alt="{{ cliente.foto }}"
+                *ngIf="cliente?.foto"
+                (click)="abrirModal(cliente)"
+                style="width: 64px; cursor: pointer"
+              />
+              <img
+                class="img-thumbnail"
+                src="http://localhost:8080/images/no-usuario.png"
+                alt="{{ cliente.foto }}"
+                *ngIf="!cliente?.foto"
+                (click)="abrirModal(cliente)"
+                style="width: 64px; height: 64px; cursor: pointer"
+              />
+            </td>
+            <td>{{ cliente.nombre }}</td>
+            <td>{{ cliente.apellido | uppercase }}</td>
+            <td>{{ cliente.email }}</td>
+            <td>{{ cliente.createAt | date : "EEEE dd/MMMM/yyyy" }}</td>
+            <td>
+              <button
+                class="btn btn-warning"
+                type="button"
+                name="editar"
+                [routerLink]="['/clientes/form', cliente.id]"
+              >
+                Editar
+              </button>
+            </td>
+            <td>
+              <button
+                class="btn btn-danger text-center"
+                type="button"
+                name="eliminar"
+                (click)="delete(cliente)"
+              >
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <paginator-nav *ngIf="paginador" [paginador]="paginador"></paginator-nav>
   </div>
 </div>
