@@ -22,7 +22,7 @@
         </li>
       </ul>
       <ul class="navbar-nav navbar-right">
-        <li>
+        <li *ngIf="!authService.isAuthenticated()">
           <a class="btn btn-outline-primary" routerLink="/login">Login</a>
         </li>
       </ul>
