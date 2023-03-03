@@ -25,6 +25,28 @@
         <li *ngIf="!authService.isAuthenticated()">
           <a class="btn btn-outline-primary" routerLink="/login">Login</a>
         </li>
+        <li class="dropdown" *ngIf="authService.isAuthenticated()">
+          <a
+            class="btn btn-secondary dropdown-toggle"
+            href="#"
+            role="button"
+            id="dropdownMenuLink"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            {{ authService.usuario.username }}
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <button
+              class="dropdown-item btn-sm"
+              type="submit"
+              (click)="logout()"
+            >
+              Sign Out
+            </button>
+          </ul>
+        </li>
       </ul>
     </div>
   </div>

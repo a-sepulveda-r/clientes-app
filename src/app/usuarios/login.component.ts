@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { catchError, tap, throwError } from "rxjs";
 import Swal from "sweetalert2";
@@ -9,7 +9,7 @@ import { Usuario } from "./usuario";
   selector: "app-login",
   templateUrl: "./login.component.html",
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   titulo: string = "Por favor Sign in";
   usuario: Usuario;
 
@@ -20,7 +20,7 @@ export class LoginComponent {
     if (this.authService.isAuthenticated()) {
       Swal.fire(
         "Login",
-        `${this.authService.usuario.username} ya estas autentificado!`,
+        `Hola ${this.authService.usuario.username} ya estás autenticado!`,
         "info"
       );
       this.router.navigate(["/clientes"]);
