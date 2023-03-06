@@ -8,7 +8,7 @@ import { DirectivaComponent } from "./directiva/directiva.component";
 import { ClientesComponent } from "./clientes/clientes.component";
 import { ClienteService } from "./clientes/cliente.service";
 import { Routes, RouterModule } from "@angular/router";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormComponent } from "./clientes/form.component";
 import { FormsModule } from "@angular/forms";
 import { registerLocaleData } from "@angular/common";
@@ -18,6 +18,8 @@ import { DetalleComponent } from "./clientes/detalle/detalle.component";
 import { LoginComponent } from "./usuarios/login.component";
 import { AuthGuard } from "./usuarios/guards/auth.guard";
 import { RoleGuard } from "./usuarios/guards/role.guard";
+import { TokenInterceptor } from "./usuarios/interceptors/token.interceptor";
+import { AuthInterceptor } from "./usuarios/interceptors/auth.interceptor";
 registerLocaleData(localeCL, "es-CL");
 
 //Aca configuramos las rutas para que queden asincronas
@@ -60,7 +62,12 @@ const routes: Routes = [
     FormsModule,
   ],
   //services
-  providers: [ClienteService, { provide: LOCALE_ID, useValue: "es-CL" }],
+  providers: [
+    ClienteService,
+    { provide: LOCALE_ID, useValue: "es-CL" },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
